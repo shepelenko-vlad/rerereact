@@ -24,9 +24,10 @@ input[type=submit]:hover {
 }
 
 .vin-input-wrapper {
-  width: 40%;
+  width: 48%;
   margin: 0 auto;
   border-radius: 5px;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
+  background-color: rgba(red, green, blue, 0);
   padding: 1em;
 }

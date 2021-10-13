@@ -6,6 +6,14 @@ function Masks({ vinNumber }) {
     const tableHeaders = ["Название", "Значение"];
 
     console.log('Masks', vinNumber)
+    if (vinNumber.length === 0 && vinNumber.length < 16) {
+        return (
+        <div className="table-container">
+            <p>Неверно набран VIN идентификатор</p>
+        </div>
+        );
+    }
+
     return (
         <div className="table-container">
             <table id="decryptedvin-table">
