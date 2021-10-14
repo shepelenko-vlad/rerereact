@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Table } from 'antd';
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getDescriptiveCodeID } from "../Services/descriptiveCodeIDSlice";
 
 const columns = [
     {
@@ -13,14 +15,10 @@ const columns = [
     },
 ];
 
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-}
-
 const TblDescriptiveCodesWithRadBtn = () => {
     const [data, setData] = useState(null);
+    const descriptiveCodeID = useSelector((state) => state.descriptiveCodeID.value)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         async function getData() {
@@ -30,6 +28,14 @@ const TblDescriptiveCodesWithRadBtn = () => {
 
         getData();
     }, []);
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            dispatch(getDescriptiveCodeID(selectedRowKeys));
+        },
+    }
+
 
     return(
         <div>

@@ -4,6 +4,7 @@ import { Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import axios from "axios";
 import ModalForDescriptionPart from "./ModalForDescriptionParts";
 import ModalFordDescriptiveCodes from "./ModalFordDescriptiveCodes";
+import { useSelector} from "react-redux";
 
 const EditableCell = ({
     editing, 
@@ -56,10 +57,10 @@ const TableDescriptionParts = () => {
     const[form] = Form.useForm();
     const[data, setData] = useState(null);
     const[editingKey, setEditingKey] = useState('');
-    const [selectedRow, setSelectedRow] = useState(null);
 
-    <ModalForDescriptionPart selectedRow={selectedRow} setSelectedRow={setSelectedRow} />
-    console.log('parent', selectedRow);
+    const maskID = useSelector((state) => state.maskID.value);
+    const descriptiveCodeID = useSelector((state) => state.descriptiveCodeID.value);
+
     useEffect(() => {
         async function getData(){
             const response = await axios.get("http://localhost:51693/api/descriptionparts");
@@ -73,6 +74,9 @@ const TableDescriptionParts = () => {
 
     const edit = (record) => {
         form.setFieldsValue({
+            descriptionPartID: '',
+            maskID:'',
+            descriptiveCodeID: '',
             descriptionPartSymbols: '',
             characteristicDescriptionPartSymbols: '',
             ...record,
@@ -83,16 +87,20 @@ const TableDescriptionParts = () => {
     const cancel = () => {
         setEditingKey('');
     };
-
+    
     const save = async (descriptionPartID) => {
         try{
             const row = await form.validateFields();
+            console.log('seks', row);
             const newData = [...data];
             const  index = newData.findIndex((item) => descriptionPartID === item.descriptionPartID);
-
+            console.log('index',index);
             if (index > -1){
                 const item = newData[index];
+                console.log('item', item);
                 newData.slice(index, 1, {...item, ...row});
+                console.log('ssss',newData[index].descriptionPartSymbols);
+                console.log('fffff',newData[index].characteristicDescriptionPartSymbols);
                 setData(newData);
                 setEditingKey('');
             }
@@ -101,8 +109,9 @@ const TableDescriptionParts = () => {
                 setData(newData);
                 setEditingKey('');
             }
-            console.log('aaaaaaaaaaaaaaaaaaa', selectedRow);
-            updateDB(descriptionPartID, selectedRow, newData[index].descriptionPartSymbols, newData[index].characteristicDescriptionPartSymbols);
+            console.log('ssss',newData[index].descriptionPartSymbols);
+            console.log('fffff',newData[index].characteristicDescriptionPartSymbols);
+            updateDB(descriptionPartID, maskID, descriptiveCodeID, newData[index].descriptionPartSymbols, newData[index].characteristicDescriptionPartSymbols);
         }
         catch(errInfo){
             console.log('Validate Failed:', errInfo);
@@ -121,16 +130,13 @@ const TableDescriptionParts = () => {
         setData(dataWithoutDeletedElement);
     }
 
-    const updateDB = async (descriptionPartID, descriptionPartSymbols, characteristicDescriptionPartSymbols) => {
-        const response = await axios.put(`http://localhost:51693/api/descriptionparts/${descriptionPartID}`, 
-        {descriptionPartID: descriptionPartID, 
-         descriptionPartSymbols: descriptionPartSymbols, 
-         characteristicDescriptionPartSymbols: characteristicDescriptionPartSymbols});
+    const updateDB = async (descPart, mask, descCode, descPartSymbols, charDescPartSymb) => {
+        const response = await axios.put(`http://localhost:51693/api/descriptionparts/${descPart}`, {descriptionPartID : descPart, maskID: mask[0], descriptiveCodeID: descCode[0], descriptionPartSymbols: descPartSymbols, characteristicDescriptionPartSymbols: charDescPartSymb});
         
         if(response.status === 200)
         {
             const result = [
-                data.find((i) => i.descriptionPartID = descriptionPartID),
+                data.find((i) => i.descPart = descPart),
                 ...data
             ];
             setData(result);
@@ -146,8 +152,20 @@ const columns = [
         editable: false,
     },
     {
+        title: '',
+        dataIndex: 'maskID',
+        width: '20%',
+        editable: true,
+    },
+    {
         title: 'Mask',
         dataIndex: 'maskContent',
+        width: '20%',
+        editable: true,
+    },
+    {
+        title: '',
+        dataIndex: 'descriptiveCodeID',
         width: '20%',
         editable: true,
     },

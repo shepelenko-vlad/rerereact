@@ -76,7 +76,7 @@ const TableMasks = () => {
       const row = await form.validateFields();
       const newData = [...data];
       const index = newData.findIndex((item) => maskID === item.maskID);
-      
+
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
