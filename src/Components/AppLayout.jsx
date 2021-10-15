@@ -3,6 +3,8 @@ import { useState } from "react";
 import VinInput from './VinInput';
 import Masks from "./Masks";
 import "./AppLayout.css";
+import AdminPanel from "./AdminPanel";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 const AppLayout = () => {
   const [vinNumber, setVinNumber] = useState(null);
@@ -20,9 +22,11 @@ const AppLayout = () => {
 
   return (
     <>
+    <Route>
       <section className="bg-feature">
+      <Link to="/admin"><h4 className="enter">Войти</h4></Link>
         <div id="top_content">
-          <h1>VIN Decoder</h1>
+          <h1 style={{color: "white"}}>VIN Decoder</h1>
           <VinInput
             setVinValueInput={setVinValueInput}
             vinValueInput={vinValueInput}
@@ -45,6 +49,7 @@ const AppLayout = () => {
           }}>
           <path d="M1440 0v96H0V0c231.32 53.768 472.313 82.282 720 82.282S1208.68 53.768 1440 0z" fill="#FFF" />
         </svg>
+    
       </section>
       <section id="where-is-my-vin">
         <div
@@ -182,6 +187,7 @@ const AppLayout = () => {
                 </p>
             </div>
         </footer>
+      </Route>
     </>
   );
 };

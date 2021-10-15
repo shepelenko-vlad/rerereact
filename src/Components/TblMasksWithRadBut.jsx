@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import {Table} from 'antd';
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getMaskID } from "../Services/maskIDSlice";
+import { getMaskContent } from "../Services/maskContentSlice";
 
 const columns = [
     {
@@ -16,7 +17,6 @@ const columns = [
 ];
 
 const TblMasksWithRadBut = () => {
-    const maskID = useSelector((state) => state.maskID.value)
     const dispatch = useDispatch()
 
     const [data, setData] = useState(null);
@@ -32,8 +32,9 @@ const TblMasksWithRadBut = () => {
     
       const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-          dispatch(getMaskID(selectedRowKeys))
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows[0].maskContent);
+          dispatch(getMaskID(selectedRowKeys));
+          dispatch(getMaskContent(selectedRows[0].maskContent));
         },
     }
 

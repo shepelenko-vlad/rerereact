@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
-import { Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import { Button, Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import axios from "axios";
 import ModalForDescriptionPart from "./ModalForDescriptionParts";
 import ModalFordDescriptiveCodes from "./ModalFordDescriptiveCodes";
 import { useSelector} from "react-redux";
+import AddDescPartsForm from "./AddDescPartsForm";
 
 const EditableCell = ({
     editing, 
@@ -59,7 +60,9 @@ const TableDescriptionParts = () => {
     const[editingKey, setEditingKey] = useState('');
 
     const maskID = useSelector((state) => state.maskID.value);
+    const maskContent = useSelector((state) => state.maskContent.value)
     const descriptiveCodeID = useSelector((state) => state.descriptiveCodeID.value);
+    const descriptiveCodeName = useSelector((state) => state.descriptiveCodeName.value);
 
     useEffect(() => {
         async function getData(){
@@ -90,17 +93,19 @@ const TableDescriptionParts = () => {
     
     const save = async (descriptionPartID) => {
         try{
-            const row = await form.validateFields();
+            let row = await form.validateFields();
             console.log('seks', row);
+            row.maskID = maskID[0];
+            row.maskContent = maskContent;
+            row.descriptiveCodeID = descriptiveCodeID[0];
+            row.descriptiveCodeName = descriptiveCodeName;
+            console.log('stroka', row);
             const newData = [...data];
             const  index = newData.findIndex((item) => descriptionPartID === item.descriptionPartID);
-            console.log('index',index);
             if (index > -1){
                 const item = newData[index];
                 console.log('item', item);
                 newData.slice(index, 1, {...item, ...row});
-                console.log('ssss',newData[index].descriptionPartSymbols);
-                console.log('fffff',newData[index].characteristicDescriptionPartSymbols);
                 setData(newData);
                 setEditingKey('');
             }
@@ -109,9 +114,9 @@ const TableDescriptionParts = () => {
                 setData(newData);
                 setEditingKey('');
             }
-            console.log('ssss',newData[index].descriptionPartSymbols);
-            console.log('fffff',newData[index].characteristicDescriptionPartSymbols);
-            updateDB(descriptionPartID, maskID, descriptiveCodeID, newData[index].descriptionPartSymbols, newData[index].characteristicDescriptionPartSymbols);
+            console.log(data);
+
+            updateDB(descriptionPartID, maskID, descriptiveCodeID, row.descriptionPartSymbols, row.characteristicDescriptionPartSymbols);
         }
         catch(errInfo){
             console.log('Validate Failed:', errInfo);
@@ -148,13 +153,13 @@ const columns = [
     {
         title: 'ID',
         dataIndex: 'descriptionPartID',
-        width: '20%',
+        width: '-20%',
         editable: false,
     },
     {
         title: '',
         dataIndex: 'maskID',
-        width: '20%',
+        width: '-20%',
         editable: true,
     },
     {
@@ -172,7 +177,7 @@ const columns = [
     {
         title: 'Descriptive Code',
         dataIndex: 'descriptiveCodeName',
-        width: '20%',
+        width: '-20%',
         editable: true,
     },
     {
@@ -259,7 +264,7 @@ const columns = [
                 onChange:cancel,
             }}
             />
-
+            <AddDescPartsForm />
         </Form>
     );
 }

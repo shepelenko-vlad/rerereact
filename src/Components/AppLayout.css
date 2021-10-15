@@ -96,3 +96,11 @@ p {
     height: 2%;
     background-color:black;
 }
+
+.enter{
+    margin-top: 1%;
+    margin-right: 1%;
+    cursor: pointer;
+    color: white;
+    text-align: right;
+}

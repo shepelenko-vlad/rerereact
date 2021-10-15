@@ -87,6 +87,7 @@ const TableMasks = () => {
         setData(newData);
         setEditingKey('');
       }
+      console.log('data', data);
       updateDB(maskID, newData[index].maskContent);
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);

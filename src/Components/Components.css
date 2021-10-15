@@ -1,0 +1,11 @@
+.AddInput {
+    width: 200px;
+    height: 30px;
+}
+
+.AddForm {
+    border: green;
+    border-radius: 3em;
+    margin-left: 20%;
+    margin-right: 20%;
+}

@@ -1,8 +1,8 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 import {Modal, Button} from 'antd';
 import TblMasksWithRadBut from './TblMasksWithRadBut';
 
-const ModalForDescriptionPart = ({maskContent, setSelectedRow}) => {
+const ModalForDescriptionPart = ({maskContent}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [row, setRow] = useState(null);
 
@@ -13,8 +13,6 @@ const ModalForDescriptionPart = ({maskContent, setSelectedRow}) => {
     const rowSelection = {
         onOk: () => {
             setIsModalVisible(false);
-            console.log('row', row)
-            console.log('child1', row)
         },
 
         onCancel: () =>{

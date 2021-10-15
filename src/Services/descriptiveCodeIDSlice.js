@@ -14,6 +14,6 @@ export const descriptiveCodeIDSlice = createSlice({
     },
 })
 
-export const {getDescriptiveCodeID} = descriptiveCodeIDSlice.actions
+export const { getDescriptiveCodeID } = descriptiveCodeIDSlice.actions
 
 export default descriptiveCodeIDSlice.reducer
