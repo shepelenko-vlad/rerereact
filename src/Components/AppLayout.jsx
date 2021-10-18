@@ -24,7 +24,7 @@ const AppLayout = () => {
     <>
     <Route>
       <section className="bg-feature">
-      <Link to="/admin"><h4 className="enter">Войти</h4></Link>
+      <Link to="/login"><h4 className="enter">Войти</h4></Link>
         <div id="top_content">
           <h1 style={{color: "white"}}>VIN Decoder</h1>
           <VinInput
