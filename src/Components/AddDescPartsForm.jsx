@@ -8,7 +8,19 @@ const AddDescPartsForm = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalMaskVisible, setIsModalMaskVisible] = useState(false);
     const [isModalDescVisible, setIsModalDescVisible] = useState(false); 
-    
+    const [symbols, setSymbols] = useState(null);
+    const [characteristic, setCharacteristic] = useState(null);
+
+    const onSymbolsChange = (e) => {
+        setSymbols(e.target.value);
+        console.log('symbols', symbols);
+    }
+
+    const onCharacteristicChange = (e) => {
+        setCharacteristic(e.target.value);
+        console.log('characteristic', characteristic);
+    }
+
     const showParentModal = () => {
         setIsModalVisible(true);
     }
@@ -20,6 +32,12 @@ const AddDescPartsForm = () => {
     const showModalDesc = () => {
         setIsModalDescVisible(true);
     }
+
+    const onOk = () => {
+        console.log('symbols', symbols);
+        console.log('characteristic', characteristic);
+        setIsModalVisible(false);
+    }
     
     return(
         <div>
@@ -27,7 +45,7 @@ const AddDescPartsForm = () => {
                 Добавить запись
             </Button>
             <div className="AddModal">
-                <Modal visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
+                <Modal visible={isModalVisible} onOk={onOk} onCancel={() => setIsModalVisible(false)}>
                     <p>Маска</p>
                     <Button type="link" onClick={showModalMask}>Маска</Button>
                     <Modal title="Добавление маски" visible={isModalMaskVisible} onOk={() => setIsModalMaskVisible(false)} onCancel={() => setIsModalMaskVisible(false)}>
@@ -39,9 +57,13 @@ const AddDescPartsForm = () => {
                         <TblDescriptiveCodesWithRadBtn />
                     </Modal>
                     <p>Символы</p>
-                    <Input className="AddInput" placeholder="Символы" />
+                    <Input className="AddInput" placeholder="Символы" 
+                    value = {symbols}
+                    onChange = {onSymbolsChange} />
                     <p>Характеристика</p>
-                    <Input className="AddInput" placeholder="Характеристика" />
+                    <Input className="AddInput" placeholder="Характеристика"
+                    value = {characteristic}
+                    onChange = {onCharacteristicChange} />
                 </Modal>
             </div>
         </div>

@@ -10,6 +10,8 @@ const ModalForDescriptionPart = ({maskContent}) => {
         setIsModalVisible(true);
     };
 
+
+
     const rowSelection = {
         onOk: () => {
             setIsModalVisible(false);
